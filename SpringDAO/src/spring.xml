@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+<bean id="dataSourceTarget" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiName" value="mypool"/>
+	<property name="jndiEnvironment">
+		<props>
+			<prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory</prop>
+			<prop key="java.naming.provide.url">t3://localhost:7001/</prop>
+		</props>
+	</property>
+</bean>
+<bean id="dataSource" class="org.springframework.jdbc.datasource.UserCredentialsDataSourceAdapter">
+	<property name="targetDataSource" ref="dataSourceTarget"/>
+	<property name="username" value="admin"/>
+	<property name="password">
+		<value>kumar&amp;anil</value>
+	</property>
+</bean>
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+</beans>
